@@ -1,0 +1,39 @@
+Design Explanation and Decisions
+Architecture and State Management
+I chose to use React's Context API for state management instead of Redux or other state management libraries. This decision was based on a few factors:
+
+Appropriate Complexity: For a medium-sized application like this task manager, Context API provides sufficient state management without the overhead of setting up a more complex solution.
+Reducer Pattern: I implemented a reducer pattern within the Context API, similar to Redux but lighter weight. This provides a structured way to handle different types of state updates (add, edit, delete, filter, sort) while maintaining predictable state changes.
+Centralized Logic: Using Context keeps all task-related logic centralized in one place (TaskContext.js), making it easier to understand and maintain the codebase.
+
+Component Structure
+I organized components based on their functionality:
+
+Container/Presentational Pattern: The main components like TaskList handle data and logic, while smaller components like TaskCard focus on presentation.
+Modular Design: Each component has a clear single responsibility, making the code more maintainable and easier to test.
+Reusable Components: Components like TaskCard are designed to be reusable across the application.
+
+UI/UX Considerations
+
+CSS Variables: Used CSS variables for theming to make it easier to implement dark mode and maintain consistent styling across the application.
+Responsive Design: Implemented a grid layout that adapts to different screen sizes using CSS Grid and media queries.
+Visual Cues: Added color coding for priorities and visual indicators for due dates to provide users with quick context about their tasks.
+Confirmation Dialog: Implemented confirmation for destructive actions like deleting tasks to prevent accidental data loss.
+Accessible UI: Ensured components have appropriate labels and tooltips for better accessibility.
+
+Data Persistence
+
+Local Storage Integration: Used localStorage to persist tasks between sessions, allowing users to close the browser and return to their tasks later.
+Custom Hook Pattern: Created a useLocalStorage hook to abstract the localStorage logic, making it easier to use throughout the application.
+
+Performance Considerations
+
+Optimized Filtering and Sorting: Implemented filtering and sorting operations efficiently to handle potentially large task lists.
+Memoized State Calculations: The getFilteredAndSortedTasks function in the context only recalculates when relevant state changes.
+Minimal Re-renders: Structured component tree to minimize unnecessary re-renders.
+
+Additional Features
+
+Due Date Visualization: Added countdown for tasks approaching their due date and visual indicators for overdue tasks.
+Dark Mode Toggle: Implemented full dark/light theme support for better user experience in different lighting conditions.
+Search Functionality: Added a search feature that filters tasks by title or description for quick task location.

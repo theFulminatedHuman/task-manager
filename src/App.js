@@ -1,24 +1,43 @@
-import logo from './logo.svg';
+// src/App.js
+import React, { useState, useEffect } from 'react';
+import { TaskProvider } from './contexts/TaskContext';
+import TaskList from './components/TaskList';
+import AddTaskForm from './components/AddTaskForm';
+import TaskFilters from './components/TaskFilters';
+import ThemeToggle from './components/ThemeToggle';
 import './App.css';
 
 function App() {
+  const [theme, setTheme] = useState(() => {
+    const savedTheme = localStorage.getItem('theme');
+    return savedTheme || 'light';
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <TaskProvider>
+      <div className="app">
+        <header className="app-header">
+          <h1>Task Manager</h1>
+          <ThemeToggle theme={theme} toggleTheme={toggleTheme} />
+        </header>
+        <main className="app-content">
+          <div className="sidebar">
+            <AddTaskForm />
+            <TaskFilters />
+          </div>
+          <TaskList />
+        </main>
+      </div>
+    </TaskProvider>
   );
 }
 
